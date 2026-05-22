@@ -1,0 +1,2281 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Áo Dài — Hành trình một tà áo Việt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ivory: #f4ede0;
+    --ivory-deep: #ebe1cf;
+    --cinnabar: #b8312f;
+    --cinnabar-deep: #8a1f1d;
+    --ink: #1a1410;
+    --ink-soft: #2d2520;
+    --gold: #b8923d;
+    --paper: #faf6ec;
+    --highlight: #b8312f; /* màu nhấn DUY NHẤT — đỏ son */
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  /* ===== UNIFIED HIGHLIGHT STYLE =====
+     Tất cả <strong> và <em> trong nội dung body đều dùng MỘT màu nhấn duy nhất */
+  .main strong, .main em,
+  .timeline-block strong, .timeline-block em,
+  .embed-section strong, .embed-section em,
+  .brands strong, .brands em,
+  .stats-section strong, .stats-section em,
+  .insights strong, .insights em,
+  .synthesis-text strong, .synthesis-text em,
+  .legacy-bridge strong, .legacy-bridge em,
+  .responsibility strong, .responsibility em {
+    color: var(--highlight);
+    font-style: italic;
+    font-weight: 600;
+  }
+
+  /* Trên nền tối (timeline-block, embed-section, brand-card, hero-quote) — vẫn cùng tông nhưng sáng hơn để đọc được */
+  .timeline-block strong, .timeline-block em,
+  .embed-section strong, .embed-section em,
+  .brand-card strong, .brand-card em,
+  .closing strong, .closing em {
+    color: var(--gold);
+    font-style: italic;
+    font-weight: 600;
+  }
+
+  /* PAGE ROUTING */
+  .page { display: none; }
+  .page.active { display: block; animation: pageIn 0.5s ease; }
+  @keyframes pageIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* NAV */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 1.5rem 3rem;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(250, 246, 236, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(26, 20, 16, 0.08);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-weight: 600;
+    letter-spacing: 0.15em; color: var(--cinnabar);
+    cursor: pointer;
+  }
+  .nav-logo span { color: var(--ink); font-style: italic; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none;
+    font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 500; }
+  .nav-links a {
+    color: var(--ink); text-decoration: none; position: relative;
+    padding: 0.3rem 0; transition: color 0.3s; cursor: pointer;
+  }
+  .nav-links a.active { color: var(--cinnabar); }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: 0; left: 0;
+    width: 0; height: 1px; background: var(--cinnabar); transition: width 0.3s ease;
+  }
+  .nav-links a.active::after, .nav-links a:hover::after { width: 100%; }
+  .nav-links a:hover { color: var(--cinnabar); }
+
+  /* ===== HOME HERO ===== */
+  .hero {
+    min-height: 100vh; position: relative;
+    display: grid; grid-template-columns: 1.1fr 1fr;
+    overflow: hidden;
+  }
+  .hero-left {
+    padding: 9rem 4rem 4rem 5rem;
+    display: flex; flex-direction: column; justify-content: center;
+    background: var(--paper);
+  }
+  .hero-meta {
+    font-size: 0.72rem; letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--cinnabar); margin-bottom: 2rem;
+    display: flex; align-items: center; gap: 1rem;
+    opacity: 0; animation: fadeUp 1s ease 0.2s forwards;
+  }
+  .hero-meta::before { content: ''; width: 40px; height: 1px; background: var(--cinnabar); }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 7vw, 6.5rem);
+    line-height: 0.95; font-weight: 500; color: var(--ink);
+    margin-bottom: 1rem;
+    opacity: 0; animation: fadeUp 1.2s ease 0.4s forwards;
+  }
+  /* Trong hero-title cho phép em màu đỏ vì là tiêu đề, không phải nhấn nội dung */
+  .hero-title em { font-style: italic; color: var(--cinnabar); font-weight: 400; }
+  .hero-title .accent {
+    display: block; font-size: 0.5em; color: var(--gold);
+    letter-spacing: 0.4em; text-transform: uppercase;
+    margin-top: 1.5rem;
+    font-family: 'Be Vietnam Pro', sans-serif; font-weight: 400;
+  }
+  .hero-slogan {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: 1.5rem; color: var(--ink-soft);
+    margin: 2.5rem 0; padding-left: 1.5rem;
+    border-left: 2px solid var(--cinnabar);
+    max-width: 480px;
+    opacity: 0; animation: fadeUp 1.2s ease 0.6s forwards;
+  }
+  .hero-teaser {
+    font-size: 0.95rem; line-height: 1.8; color: var(--ink-soft);
+    max-width: 520px; margin-bottom: 3rem;
+    opacity: 0; animation: fadeUp 1.2s ease 0.8s forwards;
+  }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 0.8rem;
+    padding: 1.2rem 2.5rem;
+    background: var(--ink); color: var(--paper);
+    text-decoration: none; font-size: 0.8rem;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    font-weight: 500; width: fit-content;
+    transition: all 0.4s ease;
+    cursor: pointer; border: none; font-family: inherit;
+    opacity: 0; animation: fadeUp 1.2s ease 1s forwards;
+  }
+  .hero-cta:hover { background: var(--cinnabar); padding-right: 3rem; }
+  .hero-cta .arrow { transition: transform 0.4s ease; }
+  .hero-cta:hover .arrow { transform: translateX(8px); }
+
+  .hero-right {
+    position: relative;
+    background: linear-gradient(135deg, var(--cinnabar-deep) 0%, var(--cinnabar) 100%);
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hero-right .hero-svg-illust,
+  .hero-right .hero-photo {
+    position: absolute; inset: 0;
+  }
+  .hero-right .hero-svg-illust {
+    inset: auto;
+    width: 75%; height: auto;
+    position: relative;
+  }
+  .hero-svg-illust {
+    width: 75%; height: auto;
+    opacity: 0; animation: fadeIn 1.5s ease 0.3s forwards;
+    filter: drop-shadow(0 20px 40px rgba(0,0,0,0.3));
+  }
+  .hero-photo {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0; animation: fadeIn 1.5s ease 0.3s forwards;
+    filter: sepia(0.1) contrast(1.05) brightness(0.95);
+  }
+  .hero-right::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(138, 31, 29, 0.25) 0%, rgba(26, 20, 16, 0.35) 100%);
+    z-index: 2;
+    pointer-events: none;
+  }
+  .vertical-text {
+    position: absolute; right: 3rem; top: 50%;
+    transform: translateY(-50%) rotate(180deg);
+    writing-mode: vertical-rl;
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    color: rgba(244, 237, 224, 0.85);
+    font-size: 1.1rem; letter-spacing: 0.5em;
+    z-index: 3;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    opacity: 0; animation: fadeIn 1.5s ease 1.2s forwards;
+  }
+  .hero-number {
+    position: absolute; bottom: 3rem; left: 3rem;
+    z-index: 3; color: var(--paper);
+    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    opacity: 0; animation: fadeIn 1.5s ease 1.4s forwards;
+  }
+  .hero-number .big {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 5rem; font-weight: 300; line-height: 1; color: var(--ivory);
+  }
+  .hero-number .label {
+    font-size: 0.7rem; letter-spacing: 0.3em;
+    text-transform: uppercase; margin-top: 0.5rem;
+    color: rgba(244, 237, 224, 0.8);
+  }
+  .stamp {
+    position: absolute; top: 8rem; right: 8rem;
+    width: 90px; height: 90px;
+    background: var(--cinnabar); color: var(--ivory);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.7rem; text-transform: uppercase;
+    letter-spacing: 0.2em; text-align: center; line-height: 1.2;
+    padding: 1rem; transform: rotate(-8deg); z-index: 4;
+    box-shadow: 0 8px 30px rgba(184, 49, 47, 0.4);
+    border: 2px solid var(--ivory);
+    opacity: 0; animation: stampIn 1s ease 1.6s forwards;
+  }
+
+  /* CHAPTERS */
+  .chapters { padding: 8rem 5rem; background: var(--paper); }
+  .chapters-header { text-align: center; margin-bottom: 5rem; }
+  .chapters-eyebrow {
+    font-size: 0.72rem; letter-spacing: 0.4em;
+    text-transform: uppercase; color: var(--cinnabar); margin-bottom: 1rem;
+  }
+  .chapters-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 4.5vw, 4rem);
+    font-weight: 500; line-height: 1.1; margin-bottom: 1.5rem;
+  }
+  .chapters-title em { font-style: italic; color: var(--cinnabar); }
+  .chapters-sub {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: 1.2rem; color: var(--ink-soft);
+    max-width: 600px; margin: 0 auto;
+  }
+  .chapters-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;
+    max-width: 1400px; margin: 0 auto;
+  }
+  .chapter-card {
+    background: var(--ivory); padding: 2.5rem 2rem;
+    border-top: 3px solid var(--cinnabar);
+    position: relative; transition: all 0.5s ease;
+    text-decoration: none; color: inherit;
+    display: block; overflow: hidden;
+    cursor: pointer; border-left: none; border-right: none; border-bottom: none;
+    width: 100%; text-align: left; font-family: inherit;
+  }
+  .chapter-card::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%; background: var(--ink);
+    transform: scaleY(0); transform-origin: bottom;
+    transition: transform 0.5s ease; z-index: 0;
+  }
+  .chapter-card:hover::before { transform: scaleY(1); }
+  .chapter-card:hover { color: var(--ivory); }
+  .chapter-card:hover .chap-num { color: var(--cinnabar); }
+  .chapter-card > * { position: relative; z-index: 1; }
+  .chap-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem; font-weight: 300;
+    color: var(--cinnabar); line-height: 1;
+    margin-bottom: 1.5rem; transition: color 0.5s ease;
+  }
+  .chap-label {
+    font-size: 0.7rem; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--ink-soft);
+    margin-bottom: 0.8rem; transition: color 0.5s ease;
+  }
+  .chapter-card:hover .chap-label { color: var(--ivory-deep); }
+  .chap-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 500;
+    line-height: 1.2; margin-bottom: 1rem;
+  }
+  .chap-desc {
+    font-size: 0.85rem; line-height: 1.6; color: var(--ink-soft);
+    transition: color 0.5s ease;
+  }
+  .chapter-card:hover .chap-desc { color: var(--ivory-deep); }
+
+  /* PAGE HEADER */
+  .page-header { padding: 11rem 5rem 5rem; position: relative; overflow: hidden; }
+  .page-header.h1 { background: linear-gradient(180deg, var(--ivory) 0%, var(--paper) 100%); }
+  .page-header.h2 { background: linear-gradient(180deg, var(--ivory-deep) 0%, var(--paper) 100%); }
+  .page-header.h3 { background: linear-gradient(180deg, var(--ivory) 0%, var(--paper) 100%); }
+
+  .page-header .bg-char {
+    position: absolute; right: -3rem; top: 7rem;
+    font-size: 28rem;
+    font-family: 'Cormorant Garamond', serif;
+    line-height: 1; z-index: 0;
+  }
+  .page-header.h1 .bg-char { color: rgba(184, 49, 47, 0.06); }
+  .page-header.h2 .bg-char { color: rgba(107, 68, 35, 0.07); }
+  .page-header.h3 .bg-char { color: rgba(184, 49, 47, 0.07); }
+
+  .header-content { position: relative; z-index: 1; max-width: 1100px; }
+
+  .breadcrumb {
+    display: flex; align-items: center; gap: 1rem;
+    font-size: 0.72rem; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--cinnabar);
+    margin-bottom: 2rem;
+  }
+  .breadcrumb-line { width: 40px; height: 1px; background: var(--cinnabar); }
+  .breadcrumb a {
+    color: var(--ink-soft); text-decoration: none;
+    cursor: pointer; transition: color 0.3s;
+  }
+  .breadcrumb a:hover { color: var(--cinnabar); }
+
+  .page-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem; color: var(--gold);
+    letter-spacing: 0.3em; margin-bottom: 1rem;
+  }
+  .page-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    line-height: 1; font-weight: 500; margin-bottom: 2rem;
+  }
+  .page-title em { font-style: italic; color: var(--cinnabar); }
+  .page-lead {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 1.4rem;
+    color: var(--ink-soft); max-width: 700px;
+    line-height: 1.5; padding-left: 2rem;
+    border-left: 3px solid var(--cinnabar);
+  }
+
+  /* MAIN */
+  .main { max-width: 1400px; margin: 0 auto; padding: 4rem 5rem 6rem; }
+
+  /* SHOWCASE - SVG ILLUSTRATION INSTEAD OF IMAGE */
+  .showcase {
+    display: grid; grid-template-columns: 1.3fr 1fr;
+    gap: 3rem; margin-bottom: 6rem; align-items: center;
+  }
+  .showcase-img-wrap {
+    aspect-ratio: 4/5;
+    position: relative;
+    background: linear-gradient(135deg, var(--cinnabar-deep) 0%, var(--cinnabar) 100%);
+    display: flex; align-items: center; justify-content: center;
+    padding: 2rem;
+    overflow: hidden;
+  }
+  .showcase-img-wrap::before {
+    content: ''; position: absolute; inset: -20px;
+    border: 1px solid var(--cinnabar); z-index: -1;
+  }
+  .showcase-svg { width: 90%; height: 90%; }
+  .showcase-photo {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: sepia(0.15) contrast(1.05);
+  }
+  .showcase-caption {
+    position: absolute; bottom: -30px; right: -30px;
+    background: var(--cinnabar); color: var(--ivory);
+    padding: 1.2rem 1.8rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 0.95rem;
+    max-width: 280px; line-height: 1.4;
+    z-index: 2;
+  }
+  .showcase-text h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem; line-height: 1.1;
+    margin-bottom: 1.5rem; font-weight: 500;
+  }
+  .showcase-text h3 em { color: var(--cinnabar); font-style: italic; }
+  .showcase-text .meta {
+    font-size: 0.7rem; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 1rem;
+  }
+  .showcase-text p {
+    font-size: 1rem; line-height: 1.8;
+    color: var(--ink-soft); margin-bottom: 1.2rem;
+  }
+
+  .facts-section { margin-bottom: 5rem; }
+  .section-label {
+    display: flex; align-items: center; gap: 1.5rem; margin-bottom: 3rem;
+  }
+  .section-label::before {
+    content: ''; width: 60px; height: 1px; background: var(--cinnabar);
+  }
+  .section-label span {
+    font-size: 0.75rem; letter-spacing: 0.4em;
+    text-transform: uppercase; color: var(--cinnabar);
+  }
+  .facts-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    line-height: 1.1; margin-bottom: 4rem;
+    max-width: 800px; font-weight: 500;
+  }
+  .facts-title em { font-style: italic; color: var(--cinnabar); }
+  .facts-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem;
+  }
+  .fact-card {
+    background: var(--ivory); padding: 2.5rem;
+    position: relative; border-left: 3px solid var(--cinnabar);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+  .fact-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(26, 20, 16, 0.08);
+  }
+  .fact-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem; color: var(--cinnabar);
+    letter-spacing: 0.2em; margin-bottom: 1rem; font-style: italic;
+  }
+  .fact-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem; line-height: 1.3;
+    margin-bottom: 1rem; font-weight: 600; color: var(--ink);
+  }
+  .fact-body {
+    font-size: 0.92rem; line-height: 1.7; color: var(--ink-soft);
+  }
+
+  /* TIMELINE BLOCK */
+  .timeline-block {
+    background: var(--ink); color: var(--ivory);
+    padding: 5rem; margin: 5rem 0; position: relative;
+  }
+  .timeline-block .section-label::before { background: var(--gold); }
+  .timeline-block .section-label span { color: var(--gold); }
+  .timeline-block h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem; margin-bottom: 3rem;
+    color: var(--ivory); font-weight: 500;
+  }
+  .timeline-block h3 em { font-style: italic; color: var(--gold); }
+  .timeline-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem;
+  }
+  .timeline-item {
+    border-top: 1px solid rgba(244, 237, 224, 0.2); padding-top: 1.5rem;
+  }
+  .timeline-date {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem; color: var(--gold);
+    font-weight: 300; margin-bottom: 0.5rem; line-height: 1;
+  }
+  .timeline-label {
+    font-size: 0.7rem; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--ivory-deep); margin-bottom: 1rem;
+  }
+  .timeline-desc {
+    font-size: 0.9rem; line-height: 1.7; color: rgba(244, 237, 224, 0.85);
+  }
+
+  /* GARMENT BLOCK */
+  .section-divider { text-align: center; padding: 4rem 0 2rem; position: relative; }
+  .section-divider .symbol {
+    display: inline-block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem; color: var(--cinnabar); margin: 0 1rem;
+  }
+  .section-divider::before, .section-divider::after {
+    content: ''; display: inline-block;
+    width: 80px; height: 1px; background: var(--cinnabar);
+    vertical-align: middle; margin: 0 1rem;
+  }
+
+  .garment { margin-bottom: 7rem; position: relative; }
+  .garment-header {
+    display: grid; grid-template-columns: auto 1fr auto;
+    align-items: end; gap: 2rem;
+    margin-bottom: 3rem; padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(26, 20, 16, 0.15);
+  }
+  .garment-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 7rem; line-height: 0.8;
+    color: var(--cinnabar); font-weight: 300;
+  }
+  .garment-title-block h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 4vw, 3.8rem);
+    line-height: 1; font-weight: 500; margin-bottom: 0.5rem;
+  }
+  .garment-title-block h2 em { font-style: italic; color: var(--cinnabar); }
+  .garment-era {
+    font-size: 0.75rem; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--ink-soft);
+  }
+  .garment-tag {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 1rem;
+    color: var(--gold); text-align: right;
+    padding: 0.8rem 1.5rem; border: 1px solid var(--gold);
+  }
+  .garment-content {
+    display: grid; grid-template-columns: 1fr 1.2fr;
+    gap: 4rem; align-items: start;
+  }
+  .garment-visual {
+    aspect-ratio: 3/4; position: relative; overflow: hidden;
+    background: linear-gradient(135deg, var(--ink-soft) 0%, var(--ink) 100%);
+    display: flex; align-items: center; justify-content: center;
+    padding: 2rem;
+  }
+  .garment-visual::after {
+    content: ''; position: absolute; inset: 12px;
+    border: 1px solid rgba(244, 237, 224, 0.4); pointer-events: none;
+  }
+  .garment-svg { width: 80%; height: 80%; z-index: 1; }
+  .garment-photo {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    z-index: 1;
+    filter: sepia(0.2) contrast(1.05);
+  }
+  .visual-tag {
+    position: absolute; bottom: 1.5rem; left: 1.5rem;
+    background: var(--cinnabar); color: var(--ivory);
+    padding: 0.8rem 1.2rem;
+    font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase;
+    z-index: 2;
+  }
+  .bullets-intro {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 1.3rem;
+    line-height: 1.5; color: var(--ink-soft);
+    margin-bottom: 2.5rem; padding-left: 1.5rem;
+    border-left: 2px solid var(--cinnabar);
+  }
+  .bullets { list-style: none; }
+  .bullets li {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(26, 20, 16, 0.1);
+    display: grid; grid-template-columns: auto 1fr;
+    gap: 1.5rem; align-items: start;
+  }
+  .bullets li:first-child { padding-top: 0; }
+  .bullets .num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem; color: var(--cinnabar);
+    font-style: italic; line-height: 1.4;
+  }
+  .bullets .text {
+    font-size: 0.95rem; line-height: 1.7; color: var(--ink-soft);
+  }
+  .legacy-bridge {
+    margin-top: 3rem; padding: 2rem 2.5rem;
+    background: var(--ivory); border-left: 4px solid var(--gold);
+    position: relative;
+  }
+  .legacy-bridge::before {
+    content: '↘'; position: absolute;
+    top: -0.5rem; left: 1.5rem;
+    background: var(--paper); padding: 0 0.5rem;
+    color: var(--gold); font-size: 1.5rem;
+  }
+  .legacy-bridge .label {
+    font-size: 0.7rem; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem;
+  }
+  .legacy-bridge p {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 1.05rem;
+    line-height: 1.6; color: var(--ink-soft);
+  }
+
+  /* HAN INFLUENCE BLOCK — new! shown after Áo Giao Lĩnh in Page 2 */
+  .han-influence {
+    background: var(--ink);
+    color: var(--ivory);
+    padding: 4rem 3.5rem;
+    margin: 3rem 0 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .han-influence::before {
+    content: '影響';
+    position: absolute;
+    right: -1rem; top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12rem;
+    color: rgba(184, 145, 61, 0.08);
+    line-height: 1;
+  }
+  .han-influence .han-label {
+    font-size: 0.72rem; letter-spacing: 0.4em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 1rem;
+    position: relative; z-index: 1;
+  }
+  .han-influence .han-label::before {
+    content: ''; width: 50px; height: 1px; background: var(--gold);
+  }
+  .han-influence h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-weight: 500; line-height: 1.15;
+    margin-bottom: 2.5rem; max-width: 800px;
+    position: relative; z-index: 1;
+    color: var(--ivory);
+  }
+  .han-influence h3 em { font-style: italic; color: var(--gold); }
+  .han-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+    position: relative; z-index: 1;
+  }
+  .han-item {
+    padding: 1.5rem 0;
+    border-top: 1px solid rgba(184, 145, 61, 0.3);
+  }
+  .han-item-head {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem; font-weight: 600;
+    color: var(--gold); margin-bottom: 0.8rem;
+    font-style: italic;
+  }
+  .han-item-body {
+    font-size: 0.88rem; line-height: 1.7;
+    color: rgba(244, 237, 224, 0.85);
+  }
+  /* Override: trong han-influence dùng tông sáng gold */
+  .han-influence strong, .han-influence em {
+    color: var(--gold) !important;
+    font-style: italic;
+    font-weight: 600;
+  }
+
+  /* TIMELINE 4-COL (Page 3) */
+  .ao-dai-timeline { margin-bottom: 6rem; }
+  .timeline-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 3.5vw, 3.2rem);
+    line-height: 1.1; font-weight: 500;
+    margin-bottom: 3.5rem; max-width: 800px;
+  }
+  .timeline-title em { font-style: italic; color: var(--cinnabar); }
+  .timeline-list {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;
+  }
+  .timeline-step {
+    background: var(--ivory); padding: 2rem 1.8rem;
+    border-top: 3px solid var(--cinnabar); position: relative;
+  }
+  .timeline-step .year {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem; line-height: 1;
+    color: var(--cinnabar); font-weight: 300; margin-bottom: 0.5rem;
+  }
+  .timeline-step .what {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem; font-weight: 600;
+    margin-bottom: 0.8rem; line-height: 1.2;
+  }
+  .timeline-step .desc {
+    font-size: 0.85rem; line-height: 1.6; color: var(--ink-soft);
+  }
+
+  .brands { margin: 6rem 0; }
+  .brands-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 3.5vw, 3.2rem);
+    line-height: 1.1; font-weight: 500; margin-bottom: 1rem;
+  }
+  .brands-title em { font-style: italic; color: var(--cinnabar); }
+  .brands-intro {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 1.2rem;
+    color: var(--ink-soft); max-width: 700px;
+    margin-bottom: 4rem; padding-left: 1.5rem;
+    border-left: 2px solid var(--cinnabar);
+  }
+  .brand-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+  .brand-card {
+    background: var(--ink); color: var(--ivory);
+    padding: 2.5rem 2rem; position: relative;
+    overflow: hidden; transition: transform 0.4s ease;
+  }
+  .brand-card:hover { transform: translateY(-8px); }
+  .brand-card::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px; background: var(--gold);
+  }
+  .brand-tag {
+    font-size: 0.7rem; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 1rem;
+  }
+  .brand-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem; font-weight: 500;
+    margin-bottom: 0.5rem; line-height: 1.1;
+  }
+  .brand-name em { font-style: italic; color: var(--gold); }
+  .brand-loc {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 0.95rem;
+    color: rgba(244, 237, 224, 0.6); margin-bottom: 1.5rem;
+  }
+  .brand-desc {
+    font-size: 0.88rem; line-height: 1.7;
+    color: rgba(244, 237, 224, 0.85);
+  }
+
+  .embed-section {
+    margin: 6rem 0; background: var(--ink);
+    color: var(--ivory); padding: 5rem 4rem;
+  }
+  .embed-section .section-label::before { background: var(--gold); }
+  .embed-section .section-label span { color: var(--gold); }
+  .embed-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 3.5vw, 3rem);
+    line-height: 1.1; font-weight: 500;
+    margin-bottom: 1.5rem; color: var(--ivory);
+  }
+  .embed-title em { font-style: italic; color: var(--gold); }
+  .embed-intro {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 1.1rem;
+    color: rgba(244, 237, 224, 0.85);
+    max-width: 700px; margin-bottom: 3rem;
+  }
+  .embed-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+  .embed-block { background: var(--paper); color: var(--ink); overflow: hidden; }
+  .embed-header {
+    padding: 1.2rem 1.8rem;
+    border-bottom: 1px solid rgba(26, 20, 16, 0.1);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .embed-label {
+    font-size: 0.7rem; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--cinnabar);
+  }
+  .embed-type {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 0.9rem; color: var(--ink-soft);
+  }
+  .embed-frame {
+    width: 100%; height: 380px; border: none; display: block;
+  }
+  .embed-caption {
+    padding: 1.2rem 1.8rem;
+    font-size: 0.85rem; line-height: 1.5;
+    color: var(--ink-soft); background: var(--ivory);
+  }
+
+  .stats-section { margin: 6rem 0; }
+  .stats-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2rem; margin-top: 3rem;
+  }
+  .stat-card {
+    padding: 2.5rem 2rem; background: var(--paper);
+    border: 1px solid rgba(26, 20, 16, 0.1);
+    border-left: 4px solid var(--cinnabar);
+  }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem; line-height: 1;
+    color: var(--cinnabar); font-weight: 300; margin-bottom: 0.5rem;
+  }
+  .stat-unit {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 1.1rem;
+    color: var(--gold); margin-bottom: 1rem;
+  }
+  .stat-desc {
+    font-size: 0.9rem; line-height: 1.6; color: var(--ink-soft);
+  }
+
+  /* QUOTE HERO (Page 4) */
+  .hero-quote {
+    min-height: 100vh; position: relative;
+    display: flex; align-items: center; justify-content: center;
+    padding: 8rem 5rem 5rem;
+    background: linear-gradient(135deg, var(--ink) 0%, var(--ink-soft) 100%);
+    color: var(--ivory); overflow: hidden;
+  }
+  /* SVG decorative background for hero-quote */
+  .quote-bg-svg {
+    position: absolute; right: -10%; top: 50%;
+    transform: translateY(-50%);
+    width: 60%; height: auto;
+    opacity: 0.12;
+    z-index: 0;
+  }
+  .hero-quote::after {
+    content: '肆';
+    position: absolute; right: -2rem; top: 8rem;
+    font-size: 30rem;
+    font-family: 'Cormorant Garamond', serif;
+    color: rgba(184, 49, 47, 0.1); line-height: 1;
+    z-index: 0;
+  }
+  .quote-content { position: relative; z-index: 1; max-width: 1100px; width: 100%; }
+  .quote-eyebrow {
+    font-size: 0.72rem; letter-spacing: 0.4em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 2rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .quote-eyebrow::before {
+    content: ''; width: 60px; height: 1px; background: var(--gold);
+  }
+  .quote-mark {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 10rem; line-height: 0.5;
+    color: var(--cinnabar); margin-bottom: 1rem; font-weight: 400;
+  }
+  .quote-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    line-height: 1.15; font-weight: 400; font-style: italic;
+    color: var(--ivory); margin-bottom: 3rem; max-width: 1000px;
+  }
+  .quote-text strong { font-weight: 500; color: var(--gold); font-style: normal; }
+  .quote-text .highlight { color: var(--cinnabar); font-style: italic; }
+  .quote-attribution { display: flex; align-items: center; gap: 2rem; }
+  .attribution-line { width: 60px; height: 1px; background: var(--gold); }
+  .attribution-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem; color: var(--ivory-deep); letter-spacing: 0.1em;
+  }
+  .attribution-text .name {
+    color: var(--gold); font-weight: 600; font-style: italic;
+  }
+
+  .insights {
+    padding: 7rem 5rem; background: var(--paper); position: relative;
+  }
+  .insights-header { max-width: 1400px; margin: 0 auto 5rem; }
+  .insights-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 4.5vw, 4rem);
+    line-height: 1.05; font-weight: 500; max-width: 900px;
+  }
+  .insights-title em { font-style: italic; color: var(--cinnabar); }
+  .insights-grid {
+    max-width: 1400px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+  }
+  .insight-card { background: var(--paper); padding: 0; position: relative; }
+  .insight-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 6rem; font-weight: 300;
+    color: var(--cinnabar); line-height: 0.8; margin-bottom: 1.5rem;
+  }
+  .insight-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem; line-height: 1.2; font-weight: 500;
+    margin-bottom: 1.5rem; padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(26, 20, 16, 0.15);
+  }
+  .insight-headline em { font-style: italic; color: var(--cinnabar); }
+  .insight-body {
+    font-size: 0.95rem; line-height: 1.7; color: var(--ink-soft);
+  }
+
+  /* RESPONSIBILITY SECTION — NEW for Page 4 */
+  .responsibility {
+    padding: 7rem 5rem;
+    background: var(--ivory);
+    position: relative;
+    overflow: hidden;
+  }
+  .responsibility::before {
+    content: '責';
+    position: absolute;
+    left: -3rem; top: 5rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26rem;
+    color: rgba(184, 49, 47, 0.05);
+    line-height: 1;
+  }
+  .responsibility-header {
+    max-width: 1400px;
+    margin: 0 auto 4rem;
+    position: relative;
+    z-index: 1;
+  }
+  .resp-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.3rem, 4vw, 3.5rem);
+    line-height: 1.1;
+    font-weight: 500;
+    max-width: 850px;
+    margin-bottom: 1.5rem;
+  }
+  .resp-title em { font-style: italic; color: var(--cinnabar); }
+  .resp-lead {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.25rem;
+    color: var(--ink-soft);
+    max-width: 750px;
+    padding-left: 1.5rem;
+    border-left: 2px solid var(--cinnabar);
+  }
+  .resp-grid {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+  .resp-card {
+    background: var(--paper);
+    padding: 2.2rem 1.8rem;
+    border-top: 3px solid var(--cinnabar);
+    position: relative;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+  .resp-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(26, 20, 16, 0.1);
+  }
+  .resp-icon {
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    background: var(--cinnabar);
+    color: var(--ivory);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-weight: 600;
+    margin-bottom: 1.2rem;
+  }
+  .resp-head {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    color: var(--ink);
+  }
+  .resp-head em { font-style: italic; color: var(--cinnabar); }
+  .resp-body {
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+
+  .synthesis {
+    padding: 7rem 5rem; background: var(--paper);
+    position: relative; overflow: hidden;
+  }
+  .synthesis::before {
+    content: ''; position: absolute;
+    top: 0; right: 0; width: 50%; height: 100%;
+    background: var(--cinnabar);
+    clip-path: polygon(20% 0, 100% 0, 100% 100%, 0% 100%);
+    opacity: 0.04;
+  }
+  .synthesis-content {
+    max-width: 1400px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1.3fr;
+    gap: 5rem; align-items: center;
+    position: relative; z-index: 1;
+  }
+  .synthesis-visual-wrap {
+    aspect-ratio: 4/5;
+    background: linear-gradient(135deg, var(--cinnabar) 0%, var(--cinnabar-deep) 100%);
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    padding: 2rem;
+    overflow: hidden;
+  }
+  .synthesis-visual-wrap::before {
+    content: ''; position: absolute; inset: -20px;
+    border: 1px solid var(--cinnabar); z-index: -1;
+  }
+  .synthesis-svg { width: 85%; height: 85%; }
+  .synthesis-photo {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: sepia(0.1) contrast(1.05);
+  }
+  .synthesis-visual-tag {
+    position: absolute; bottom: -35px; left: -30px;
+    background: var(--ink); color: var(--ivory);
+    padding: 1.2rem 1.8rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 0.95rem;
+    max-width: 260px; line-height: 1.4;
+    z-index: 3;
+  }
+  .synthesis-text .label {
+    font-size: 0.75rem; letter-spacing: 0.4em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem;
+  }
+  .synthesis-text h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    line-height: 1.1; font-weight: 500; margin-bottom: 2rem;
+  }
+  .synthesis-text h2 em { font-style: italic; color: var(--cinnabar); }
+  .synthesis-text p {
+    font-size: 1.05rem; line-height: 1.8;
+    color: var(--ink-soft); margin-bottom: 1.5rem;
+  }
+
+  .closing {
+    padding: 6rem 5rem; background: var(--ink);
+    color: var(--ivory); text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .closing::before {
+    content: '— FIN —';
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 18rem;
+    color: rgba(184, 49, 47, 0.05);
+    line-height: 1; letter-spacing: 0.2em;
+  }
+  .closing-content { position: relative; z-index: 1; }
+  .closing-eyebrow {
+    font-size: 0.72rem; letter-spacing: 0.4em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem;
+  }
+  .closing-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    font-weight: 400; font-style: italic;
+    margin-bottom: 3rem; max-width: 700px;
+    margin-left: auto; margin-right: auto; line-height: 1.3;
+  }
+  .closing-title em { color: var(--gold); font-style: italic; }
+  .closing-actions {
+    display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;
+  }
+  .closing-btn {
+    display: inline-flex; align-items: center; gap: 1rem;
+    padding: 1.2rem 2.5rem; text-decoration: none;
+    font-size: 0.8rem; letter-spacing: 0.25em;
+    text-transform: uppercase; font-weight: 500;
+    transition: all 0.4s ease;
+    cursor: pointer; border: none; font-family: inherit;
+  }
+  .closing-btn.primary { background: var(--cinnabar); color: var(--ivory); }
+  .closing-btn.primary:hover { background: var(--gold); color: var(--ink); }
+  .closing-btn.secondary {
+    background: transparent; color: var(--ivory);
+    border: 1px solid var(--ivory-deep);
+  }
+  .closing-btn.secondary:hover { background: var(--ivory); color: var(--ink); }
+
+  /* CONTINUE */
+  .continue-section {
+    padding: 6rem 5rem;
+    background: linear-gradient(135deg, var(--cinnabar) 0%, var(--cinnabar-deep) 100%);
+    color: var(--ivory); text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .continue-section .bg-char {
+    position: absolute; right: 3rem; top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20rem;
+    color: rgba(244, 237, 224, 0.08); line-height: 1;
+  }
+  .continue-eyebrow {
+    font-size: 0.72rem; letter-spacing: 0.4em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem;
+  }
+  .continue-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem; font-weight: 500;
+    margin-bottom: 2.5rem; position: relative; z-index: 1;
+  }
+  .continue-title em { font-style: italic; color: var(--gold); }
+  .continue-btn {
+    display: inline-flex; align-items: center; gap: 1rem;
+    padding: 1.3rem 3rem;
+    background: var(--ivory); color: var(--ink);
+    text-decoration: none; font-size: 0.85rem;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    font-weight: 500; transition: all 0.4s ease;
+    position: relative; z-index: 1;
+    cursor: pointer; border: none; font-family: inherit;
+  }
+  .continue-btn:hover {
+    background: var(--ink); color: var(--ivory);
+    padding-right: 4rem;
+  }
+  .continue-btn .arrow { transition: transform 0.4s; }
+  .continue-btn:hover .arrow { transform: translateX(10px); }
+  .continue-prev {
+    display: inline-block; margin-bottom: 2rem;
+    color: rgba(244, 237, 224, 0.7); text-decoration: none;
+    font-size: 0.78rem; letter-spacing: 0.2em;
+    text-transform: uppercase;
+    position: relative; z-index: 1;
+    cursor: pointer; background: none; border: none; font-family: inherit;
+  }
+  .continue-prev:hover { color: var(--ivory); }
+
+  /* FOOTER — chung cho tất cả trang */
+  .footer {
+    padding: 3rem 5rem;
+    background: var(--ink);
+    color: var(--ivory-deep);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.8rem; letter-spacing: 0.1em;
+    gap: 2rem; flex-wrap: wrap;
+  }
+  .footer-credit {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 1rem;
+  }
+  .footer-author {
+    text-align: center;
+    flex: 1;
+    color: var(--gold);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.15em;
+  }
+  .footer-author strong { color: var(--ivory); font-weight: 600; font-style: normal; }
+  .footer-source {
+    display: inline-block;
+    margin-left: 0.5rem;
+    color: var(--gold);
+    text-decoration: none;
+    font-style: italic;
+    border-bottom: 1px dashed rgba(184, 145, 61, 0.5);
+    padding-bottom: 1px;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .footer-source:hover {
+    color: var(--ivory);
+    border-bottom-color: var(--ivory);
+  }
+  .footer-meta { text-align: right; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes stampIn {
+    from { opacity: 0; transform: rotate(-30deg) scale(0.5); }
+    to { opacity: 1; transform: rotate(-8deg) scale(1); }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 968px) {
+    .nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-left { padding: 7rem 1.5rem 3rem; }
+    .hero-right { min-height: 50vh; }
+    .chapters { padding: 5rem 1.5rem; }
+    .chapters-grid { grid-template-columns: 1fr; }
+    .page-header { padding: 8rem 1.5rem 3rem; }
+    .main { padding: 3rem 1.5rem; }
+    .showcase { grid-template-columns: 1fr; gap: 4rem; }
+    .showcase-caption { right: 0; bottom: -20px; }
+    .facts-grid { grid-template-columns: 1fr; }
+    .timeline-block { padding: 3rem 1.5rem; }
+    .timeline-grid { grid-template-columns: 1fr; }
+    .garment-header { grid-template-columns: 1fr; gap: 1rem; }
+    .garment-num { font-size: 5rem; }
+    .garment-tag { text-align: left; }
+    .garment-content { grid-template-columns: 1fr; gap: 2rem; }
+    .han-influence { padding: 3rem 1.5rem; }
+    .han-grid { grid-template-columns: 1fr; }
+    .timeline-list { grid-template-columns: 1fr; }
+    .brand-grid { grid-template-columns: 1fr; }
+    .embed-section { padding: 3rem 1.5rem; }
+    .embed-grid { grid-template-columns: 1fr; }
+    .embed-frame { height: 300px; }
+    .stats-grid { grid-template-columns: 1fr; }
+    .hero-quote { padding: 7rem 1.5rem 3rem; }
+    .quote-mark { font-size: 6rem; }
+    .quote-attribution { flex-direction: column; gap: 0.8rem; align-items: flex-start; }
+    .insights { padding: 4rem 1.5rem; }
+    .insights-grid { grid-template-columns: 1fr; }
+    .responsibility { padding: 4rem 1.5rem; }
+    .resp-grid { grid-template-columns: 1fr; }
+    .synthesis { padding: 4rem 1.5rem; }
+    .synthesis-content { grid-template-columns: 1fr; gap: 4rem; }
+    .synthesis-visual-tag { left: 0; bottom: -25px; }
+    .closing { padding: 4rem 1.5rem; }
+    .continue-section { padding: 4rem 1.5rem; }
+    .continue-title { font-size: 2rem; }
+    .footer {
+      padding: 2rem 1.5rem;
+      flex-direction: column;
+      gap: 1rem;
+      text-align: center;
+    }
+    .footer-author, .footer-meta, .footer-credit { text-align: center; }
+    .stamp { top: 5rem; right: 2rem; width: 70px; height: 70px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== Re-usable SVG Definitions ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- HÁN PHỤC SVG (Trang 1 + Trang 2 Áo Giao Lĩnh) -->
+    <symbol id="svg-hanfu" viewBox="0 0 200 280">
+      <!-- background ornament -->
+      <circle cx="100" cy="80" r="45" fill="none" stroke="#b8923d" stroke-width="0.5" opacity="0.4"/>
+      <circle cx="100" cy="80" r="55" fill="none" stroke="#b8923d" stroke-width="0.3" opacity="0.3"/>
+      <!-- head -->
+      <ellipse cx="100" cy="60" rx="16" ry="18" fill="#ebe1cf"/>
+      <!-- hair / topknot -->
+      <ellipse cx="100" cy="42" rx="14" ry="10" fill="#1a1410"/>
+      <rect x="96" y="30" width="8" height="14" rx="2" fill="#1a1410"/>
+      <circle cx="100" cy="30" r="3" fill="#b8923d"/>
+      <!-- body / main robe -->
+      <path d="M 60 90 Q 100 78 140 90 L 155 220 Q 100 240 45 220 Z"
+            fill="#f4ede0" stroke="#b8923d" stroke-width="1"/>
+      <!-- cross collar (giao lĩnh - left over right) -->
+      <path d="M 100 78 L 78 100 L 100 115 L 122 100 Z" fill="#8a1f1d"/>
+      <path d="M 100 78 L 78 100 L 100 110 Z" fill="#b8312f"/>
+      <!-- wide sleeves -->
+      <path d="M 60 90 L 25 130 L 30 170 L 55 165 L 60 130 Z"
+            fill="#f4ede0" stroke="#b8923d" stroke-width="1"/>
+      <path d="M 140 90 L 175 130 L 170 170 L 145 165 L 140 130 Z"
+            fill="#f4ede0" stroke="#b8923d" stroke-width="1"/>
+      <!-- sleeve trim cinnabar -->
+      <path d="M 25 130 L 30 170 L 38 168 L 33 132 Z" fill="#b8312f"/>
+      <path d="M 175 130 L 170 170 L 162 168 L 167 132 Z" fill="#b8312f"/>
+      <!-- belt -->
+      <rect x="60" y="148" width="80" height="10" fill="#8a1f1d"/>
+      <rect x="60" y="148" width="80" height="3" fill="#b8923d"/>
+      <!-- jade decoration -->
+      <circle cx="100" cy="160" r="4" fill="#b8923d"/>
+      <!-- vertical decoration line -->
+      <line x1="100" y1="115" x2="100" y2="148" stroke="#b8923d" stroke-width="0.8" stroke-dasharray="2,2"/>
+      <line x1="100" y1="160" x2="100" y2="225" stroke="#b8923d" stroke-width="0.8" stroke-dasharray="2,2"/>
+      <!-- label text -->
+      <text x="100" y="265" text-anchor="middle" fill="#b8923d"
+            font-family="Cormorant Garamond, serif" font-style="italic" font-size="11"
+            letter-spacing="3">HÁN PHỤC · 漢服</text>
+    </symbol>
+
+    <!-- ÁO TỨ THÂN SVG -->
+    <symbol id="svg-tuthan" viewBox="0 0 200 280">
+      <!-- background ornament -->
+      <rect x="40" y="30" width="120" height="220" fill="none" stroke="#b8923d" stroke-width="0.3" opacity="0.3"/>
+      <!-- head -->
+      <ellipse cx="100" cy="55" rx="14" ry="17" fill="#ebe1cf"/>
+      <!-- hair tied bun -->
+      <ellipse cx="100" cy="40" rx="13" ry="9" fill="#1a1410"/>
+      <ellipse cx="100" cy="33" rx="6" ry="5" fill="#1a1410"/>
+      <!-- nón quai thao (conical hat) hint -->
+      <path d="M 70 28 Q 100 18 130 28 L 125 32 Q 100 22 75 32 Z" fill="#6b4423" opacity="0.6"/>
+      <!-- yếm (under garment) -->
+      <path d="M 88 80 L 112 80 L 110 130 L 90 130 Z" fill="#b8312f"/>
+      <!-- 4 panels - left front -->
+      <path d="M 65 85 L 88 80 L 88 200 L 60 205 Z"
+            fill="#4a3520" stroke="#b8923d" stroke-width="0.8"/>
+      <!-- 4 panels - right front -->
+      <path d="M 135 85 L 112 80 L 112 200 L 140 205 Z"
+            fill="#4a3520" stroke="#b8923d" stroke-width="0.8"/>
+      <!-- back panels (visible at sides) -->
+      <path d="M 60 205 L 88 200 L 90 245 L 55 240 Z" fill="#3a2818" stroke="#b8923d" stroke-width="0.5"/>
+      <path d="M 140 205 L 112 200 L 110 245 L 145 240 Z" fill="#3a2818" stroke="#b8923d" stroke-width="0.5"/>
+      <!-- sleeves (tighter than Han) -->
+      <path d="M 65 85 L 48 130 L 52 170 L 65 168 Z" fill="#4a3520" stroke="#b8923d" stroke-width="0.5"/>
+      <path d="M 135 85 L 152 130 L 148 170 L 135 168 Z" fill="#4a3520" stroke="#b8923d" stroke-width="0.5"/>
+      <!-- ghép vải seam lines (the four-panel construction) -->
+      <line x1="88" y1="80" x2="88" y2="245" stroke="#b8923d" stroke-width="0.4" stroke-dasharray="1,2"/>
+      <line x1="112" y1="80" x2="112" y2="245" stroke="#b8923d" stroke-width="0.4" stroke-dasharray="1,2"/>
+      <!-- thắt lưng buộc trước (front knot) -->
+      <ellipse cx="100" cy="140" rx="8" ry="5" fill="#b8923d"/>
+      <path d="M 92 142 L 85 165 M 108 142 L 115 165" stroke="#b8923d" stroke-width="2"/>
+      <!-- label -->
+      <text x="100" y="270" text-anchor="middle" fill="#b8923d"
+            font-family="Cormorant Garamond, serif" font-style="italic" font-size="11"
+            letter-spacing="3">ÁO TỨ THÂN</text>
+    </symbol>
+
+    <!-- ÁO GIAO LĨNH SVG (variant of Hanfu - thinner, more elegant) -->
+    <symbol id="svg-giaolinh" viewBox="0 0 200 280">
+      <rect x="40" y="30" width="120" height="220" fill="none" stroke="#b8923d" stroke-width="0.3" opacity="0.3"/>
+      <!-- head -->
+      <ellipse cx="100" cy="55" rx="14" ry="17" fill="#ebe1cf"/>
+      <ellipse cx="100" cy="38" rx="13" ry="10" fill="#1a1410"/>
+      <ellipse cx="100" cy="30" rx="5" ry="4" fill="#1a1410"/>
+      <!-- main body - slimmer than Han -->
+      <path d="M 68 85 Q 100 78 132 85 L 142 215 Q 100 230 58 215 Z"
+            fill="#2c3e50" stroke="#b8923d" stroke-width="0.8"/>
+      <!-- cross collar - kept from Han, but thinner -->
+      <path d="M 100 78 L 82 95 L 100 108 L 118 95 Z" fill="#8a1f1d"/>
+      <path d="M 100 78 L 82 95 L 100 105 Z" fill="#b8312f"/>
+      <!-- sleeves - narrower than Han -->
+      <path d="M 68 85 L 45 140 L 50 175 L 65 170 L 68 130 Z"
+            fill="#2c3e50" stroke="#b8923d" stroke-width="0.8"/>
+      <path d="M 132 85 L 155 140 L 150 175 L 135 170 L 132 130 Z"
+            fill="#2c3e50" stroke="#b8923d" stroke-width="0.8"/>
+      <!-- váy quấn (wrapped skirt) lower -->
+      <path d="M 58 215 Q 100 225 142 215 L 148 250 Q 100 260 52 250 Z"
+            fill="#1a1410" stroke="#b8923d" stroke-width="0.5"/>
+      <!-- thắt lưng bao (belt sash) -->
+      <rect x="62" y="150" width="76" height="8" fill="#b8923d"/>
+      <rect x="62" y="150" width="76" height="2" fill="#8a1f1d"/>
+      <!-- knot in middle -->
+      <ellipse cx="100" cy="158" rx="6" ry="4" fill="#8a1f1d"/>
+      <!-- label -->
+      <text x="100" y="270" text-anchor="middle" fill="#b8923d"
+            font-family="Cormorant Garamond, serif" font-style="italic" font-size="11"
+            letter-spacing="3">ÁO GIAO LĨNH</text>
+    </symbol>
+
+    <!-- ÁO DÀI CÁCH TÂN SVG (Page 4 synthesis) -->
+    <symbol id="svg-aodai-modern" viewBox="0 0 200 320">
+      <!-- decorative pattern -->
+      <circle cx="100" cy="70" r="40" fill="none" stroke="#f4ede0" stroke-width="0.4" opacity="0.3"/>
+      <!-- head -->
+      <ellipse cx="100" cy="55" rx="13" ry="16" fill="#ebe1cf"/>
+      <!-- modern hair (flowing) -->
+      <path d="M 87 40 Q 85 55 88 75 L 92 78 Q 92 60 92 45 Z" fill="#1a1410"/>
+      <path d="M 113 40 Q 115 55 112 75 L 108 78 Q 108 60 108 45 Z" fill="#1a1410"/>
+      <ellipse cx="100" cy="38" rx="14" ry="8" fill="#1a1410"/>
+      <!-- áo dài body - long fitted -->
+      <path d="M 78 80 Q 100 75 122 80 L 128 280 L 72 280 Z"
+            fill="#f4ede0" stroke="#b8923d" stroke-width="0.8"/>
+      <!-- side slits showing -->
+      <line x1="80" y1="170" x2="78" y2="280" stroke="#b8923d" stroke-width="0.5" stroke-dasharray="2,2"/>
+      <line x1="120" y1="170" x2="122" y2="280" stroke="#b8923d" stroke-width="0.5" stroke-dasharray="2,2"/>
+      <!-- mandarin collar -->
+      <path d="M 92 76 L 92 88 L 108 88 L 108 76 Z" fill="#8a1f1d"/>
+      <!-- side button line -->
+      <line x1="108" y1="88" x2="125" y2="115" stroke="#b8923d" stroke-width="1.5"/>
+      <line x1="125" y1="115" x2="125" y2="170" stroke="#b8923d" stroke-width="1"/>
+      <!-- buttons -->
+      <circle cx="118" cy="98" r="1.5" fill="#b8923d"/>
+      <circle cx="125" cy="120" r="1.5" fill="#b8923d"/>
+      <circle cx="125" cy="140" r="1.5" fill="#b8923d"/>
+      <circle cx="125" cy="160" r="1.5" fill="#b8923d"/>
+      <!-- sleeves - long fitted -->
+      <path d="M 78 80 L 60 180 L 65 185 L 80 180 Z" fill="#f4ede0" stroke="#b8923d" stroke-width="0.6"/>
+      <path d="M 122 80 L 140 180 L 135 185 L 120 180 Z" fill="#f4ede0" stroke="#b8923d" stroke-width="0.6"/>
+      <!-- decorative flower pattern on chest -->
+      <g opacity="0.6">
+        <circle cx="92" cy="115" r="3" fill="#b8312f"/>
+        <circle cx="92" cy="115" r="1.5" fill="#b8923d"/>
+        <circle cx="100" cy="130" r="2.5" fill="#b8312f"/>
+        <circle cx="92" cy="145" r="2" fill="#b8312f"/>
+      </g>
+      <!-- modern accessory: jeans hint at bottom (cách tân!) -->
+      <rect x="82" y="280" width="36" height="20" fill="#2c3e50" opacity="0.7"/>
+      <line x1="100" y1="280" x2="100" y2="300" stroke="#1a1410" stroke-width="0.3"/>
+      <!-- label -->
+      <text x="100" y="315" text-anchor="middle" fill="#b8923d"
+            font-family="Cormorant Garamond, serif" font-style="italic" font-size="11"
+            letter-spacing="3">ÁO DÀI · CÁCH TÂN</text>
+    </symbol>
+
+    <!-- DECORATIVE BG PATTERN -->
+    <symbol id="svg-decorative" viewBox="0 0 400 400">
+      <g opacity="0.5">
+        <circle cx="200" cy="200" r="180" fill="none" stroke="#b8923d" stroke-width="1"/>
+        <circle cx="200" cy="200" r="140" fill="none" stroke="#b8923d" stroke-width="0.5"/>
+        <circle cx="200" cy="200" r="100" fill="none" stroke="#b8923d" stroke-width="0.3"/>
+        <g transform="translate(200,200)">
+          <g>
+            <path d="M 0 -150 L 10 -100 L 0 -80 L -10 -100 Z" fill="#b8923d" opacity="0.6"/>
+            <path d="M 0 -150 L 10 -100 L 0 -80 L -10 -100 Z" fill="#b8923d" opacity="0.6" transform="rotate(45)"/>
+            <path d="M 0 -150 L 10 -100 L 0 -80 L -10 -100 Z" fill="#b8923d" opacity="0.6" transform="rotate(90)"/>
+            <path d="M 0 -150 L 10 -100 L 0 -80 L -10 -100 Z" fill="#b8923d" opacity="0.6" transform="rotate(135)"/>
+            <path d="M 0 -150 L 10 -100 L 0 -80 L -10 -100 Z" fill="#b8923d" opacity="0.6" transform="rotate(180)"/>
+            <path d="M 0 -150 L 10 -100 L 0 -80 L -10 -100 Z" fill="#b8923d" opacity="0.6" transform="rotate(225)"/>
+            <path d="M 0 -150 L 10 -100 L 0 -80 L -10 -100 Z" fill="#b8923d" opacity="0.6" transform="rotate(270)"/>
+            <path d="M 0 -150 L 10 -100 L 0 -80 L -10 -100 Z" fill="#b8923d" opacity="0.6" transform="rotate(315)"/>
+          </g>
+        </g>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo" onclick="goTo('home')">ÁO DÀI <span>· hành trình</span></div>
+  <ul class="nav-links">
+    <li><a class="nav-link" data-page="home" onclick="goTo('home')">Trang chủ</a></li>
+    <li><a class="nav-link" data-page="page1" onclick="goTo('page1')">Cội nguồn</a></li>
+    <li><a class="nav-link" data-page="page2" onclick="goTo('page2')">Đại Việt</a></li>
+    <li><a class="nav-link" data-page="page3" onclick="goTo('page3')">Sài Gòn</a></li>
+    <li><a class="nav-link" data-page="page4" onclick="goTo('page4')">Tương lai</a></li>
+  </ul>
+</nav>
+
+<!-- ========== PAGE: HOME ========== -->
+<div class="page active" id="home">
+
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-meta">Tiếng Việt · Bài cuối khóa</div>
+      <h1 class="hero-title">
+        Một tà áo,<br>
+        <em>nghìn năm</em><br>
+        dung hợp.
+        <span class="accent">Áo Dài Việt Nam</span>
+      </h1>
+      <p class="hero-slogan">
+        "Mỗi đường may là một lát cắt lịch sử — từ Hoàng Hà đến Sài Gòn, từ Hán phục đến local brand."
+      </p>
+      <p class="hero-teaser">
+        Em có biết chiếc áo dài cách tân các bạn trẻ Sài Gòn đang mặc đi dạo Đường Sách
+        có gốc rễ từ cấu trúc cổ giao lĩnh của Hán phục bên dòng Hoàng Hà, đi qua nghìn
+        năm Bắc thuộc, được chúa Nguyễn Phúc Khoát cải biên năm 1744, và được họa sĩ
+        Cát Tường "cách mạng hóa" tại Hà Nội năm 1930? Hãy cùng khám phá.
+      </p>
+      <button class="hero-cta" onclick="goTo('page1')">
+        Bắt đầu hành trình <span class="arrow">→</span>
+      </button>
+    </div>
+
+    <div class="hero-right">
+      <img class="hero-photo"
+           src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Vietnamese_women_in_Ao_Dai.jpg/600px-Vietnamese_women_in_Ao_Dai.jpg"
+           alt="Phụ nữ Việt Nam mặc áo dài"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <svg class="hero-svg-illust" style="display:none" viewBox="0 0 200 320">
+        <use href="#svg-aodai-modern"/>
+      </svg>
+      <div class="stamp">Triển lãm<br>· số ·</div>
+      <div class="vertical-text">— DI SẢN DUNG HỢP —</div>
+      <div class="hero-number">
+        <div class="big">04</div>
+        <div class="label">Trạm khám phá</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="chapters">
+    <div class="chapters-header">
+      <div class="chapters-eyebrow">— Bốn trạm dừng chân —</div>
+      <h2 class="chapters-title">Hành trình <em>vạn dặm</em><br>của một tà áo</h2>
+      <p class="chapters-sub">
+        Từ lưu vực Hoàng Hà đến những con phố Sài Gòn hôm nay — bốn chương kể về cách một
+        di sản được truyền dẫn, biến dị, và tái sinh.
+      </p>
+    </div>
+
+    <div class="chapters-grid">
+      <button class="chapter-card" onclick="goTo('page1')">
+        <div class="chap-num">01</div>
+        <div class="chap-label">Cội nguồn</div>
+        <div class="chap-title">Hán Phục bên Hoàng Hà</div>
+        <p class="chap-desc">Giao lĩnh, tay áo rộng, 12 cấp bậc — một bộ máy quan liêu được may lên người.</p>
+      </button>
+      <button class="chapter-card" onclick="goTo('page2')">
+        <div class="chap-num">02</div>
+        <div class="chap-label">Bản sắc Đại Việt</div>
+        <div class="chap-title">Giao Lĩnh & Tứ Thân</div>
+        <p class="chap-desc">Người Việt giữ cấu trúc, bỏ tầng lớp — và phát minh kỹ thuật ghép bốn mảnh vải thuần Việt.</p>
+      </button>
+      <button class="chapter-card" onclick="goTo('page3')">
+        <div class="chap-num">03</div>
+        <div class="chap-label">Nhịp sống Sài Gòn</div>
+        <div class="chap-title">Áo Dài & Local Brand</div>
+        <p class="chap-desc">Cát Tường 1930, nhà may Dung những năm 60, và Kilomet109 hôm nay — đối thoại không ngừng.</p>
+      </button>
+      <button class="chapter-card" onclick="goTo('page4')">
+        <div class="chap-num">04</div>
+        <div class="chap-label">Kết nối tương lai</div>
+        <div class="chap-title">Di sản & Trách nhiệm</div>
+        <p class="chap-desc">Hội nhập không phải là xóa bỏ. Trách nhiệm của người trẻ là tiếp biến — không sao chép.</p>
+      </button>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-credit">— Triển lãm Số · Lịch sử Dung hợp —</div>
+    <div class="footer-author"><strong>Phạm Thái An</strong> — BÀI CUỐI KHÓA — Tiếng Việt 10.2a · <a class="footer-source" href="https://docs.google.com/document/d/1lCchywLqQ0NxGKcsAtOLeoGoVs22zM6pRVY0Z-VVhoU/edit?usp=sharing" target="_blank" rel="noopener">Trích nguồn ↗</a></div>
+    <div class="footer-meta">© 2026</div>
+  </footer>
+
+</div>
+
+<!-- ========== PAGE 1 — COI NGUON ========== -->
+<div class="page" id="page1">
+
+  <header class="page-header h1">
+    <div class="bg-char">一</div>
+    <div class="header-content">
+      <div class="breadcrumb">
+        <span class="breadcrumb-line"></span>
+        <a onclick="goTo('home')">Trang chủ</a>
+        <span>/</span>
+        <span>Trạm 01</span>
+      </div>
+      <div class="page-num">— TRẠM 01 · ANCIENT FOUNDATION —</div>
+      <h1 class="page-title">Hán Phục bên <em>Hoàng Hà</em></h1>
+      <p class="page-lead">
+        Nơi đây, bên dòng Hoàng Hà cổ kính, một hệ thống y phục được dựng lên — không
+        đơn thuần để mặc, mà để phân tầng cả một xã hội. Tay áo rộng bao nhiêu, lụa
+        mịn đến đâu — tất cả đều có luật.
+      </p>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <section class="showcase">
+      <div class="showcase-img-wrap">
+        <img class="showcase-photo"
+             src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Tang_Dynasty_-_women.JPG/600px-Tang_Dynasty_-_women.JPG"
+             alt="Phụ nữ Trung Quốc cổ đại trong Hán phục"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+        <svg class="showcase-svg" style="display:none" viewBox="0 0 200 280">
+          <use href="#svg-hanfu"/>
+        </svg>
+        <div class="showcase-caption">Hán phục — cấu trúc giao lĩnh, tay áo rộng. Lưu vực Hoàng Hà.</div>
+      </div>
+      <div class="showcase-text">
+        <div class="meta">— ĐẶC ĐIỂM CỐT LÕI —</div>
+        <h3>Y phục là <em>luật</em>, không phải lựa chọn.</h3>
+        <p>
+          Ra đời tại lưu vực Hoàng Hà, Hán phục được xây dựng trên nguyên tắc bất di
+          bất dịch: cổ chéo trái đè phải. Đảo ngược chỉ dùng khi khâm liệm — sống
+          thường nhật mà nhầm là điều cấm kỵ.
+        </p>
+        <p>
+          Toàn bộ hệ thống là một bộ máy quan liêu được may lên người: 12 cấp bậc,
+          mỗi cấp một màu, một hoa văn thêu riêng biệt. Nhìn áo là biết phẩm hàm.
+        </p>
+      </div>
+    </section>
+
+    <section class="facts-section">
+      <div class="section-label"><span>Bốn đặc điểm định hình</span></div>
+      <h2 class="facts-title">
+        Mỗi đường may là <em>một điều khoản</em><br>
+        của một xã hội phân tầng.
+      </h2>
+
+      <div class="facts-grid">
+        <div class="fact-card">
+          <div class="fact-num">— 01 —</div>
+          <h3 class="fact-headline">Giao lĩnh: trái đè phải</h3>
+          <p class="fact-body">
+            Nguyên tắc tối thượng của Hán phục. Cổ chéo <strong>trái đè phải</strong> trong
+            đời sống thường nhật. Đảo ngược chỉ dùng khi <strong>khâm liệm</strong> — nhầm
+            là phạm điều cấm kỵ nghiêm trọng.
+          </p>
+        </div>
+        <div class="fact-card">
+          <div class="fact-num">— 02 —</div>
+          <h3 class="fact-headline">Tay áo rộng (博袖) — thước đo giai cấp</h3>
+          <p class="fact-body">
+            Càng cao quý, tay áo càng rộng và dài đến mức <strong>che khuất cả bàn tay</strong>
+            — vì lao động thể chất là điều người thượng lưu không bao giờ làm.
+            Chiều rộng tay áo là thước đo giai cấp <strong>trực quan nhất</strong>.
+          </p>
+        </div>
+        <div class="fact-card">
+          <div class="fact-num">— 03 —</div>
+          <h3 class="fact-headline">Tơ lụa — đặc quyền hoàng tộc</h3>
+          <p class="fact-body">
+            Theo <em>Hán thư</em>, năm <strong>119 TCN</strong>, thứ dân mặc lụa
+            bị phạt theo luật định. Vải không chỉ là vật chất — mà là biểu tượng
+            quyền lực được pháp luật bảo vệ.
+          </p>
+        </div>
+        <div class="fact-card">
+          <div class="fact-num">— 04 —</div>
+          <h3 class="fact-headline">12 cấp bậc — một bộ máy quan liêu</h3>
+          <p class="fact-body">
+            Hệ thống y phục phân tầng gồm <strong>12 cấp bậc</strong>, mỗi cấp một
+            màu và một hoa văn thêu riêng biệt — một bộ máy quan liêu được may
+            trực tiếp lên người.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="timeline-block">
+      <div class="section-label"><span>— Cơ chế truyền dẫn sang Đại Việt —</span></div>
+      <h3>Từ Hoàng Hà về <em>phương Nam</em></h3>
+
+      <div class="timeline-grid">
+        <div class="timeline-item">
+          <div class="timeline-date">119</div>
+          <div class="timeline-label">— Trước Công nguyên —</div>
+          <p class="timeline-desc">
+            Hán thư ghi: thứ dân mặc lụa bị phạt. Tơ lụa chính thức trở thành đặc quyền
+            được luật pháp bảo vệ.
+          </p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">1000</div>
+          <div class="timeline-label">— Năm Bắc thuộc —</div>
+          <p class="timeline-desc">
+            Cơ chế truyền dẫn: y phục Hán được áp đặt từ trên xuống. Người Việt hấp thu,
+            rồi biến dị theo khí hậu nhiệt đới.
+          </p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">1744</div>
+          <div class="timeline-label">— Chúa Nguyễn Phúc Khoát —</div>
+          <p class="timeline-desc">
+            Ra lệnh mặc quần thay váy — trực tiếp bắt chước mô hình Hán/Minh để khác biệt
+            với Đàng Ngoài. Tiền đề cho Áo Dài sau này.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <section class="continue-section">
+    <div class="bg-char">貳</div>
+    <div class="continue-eyebrow">— Trạm tiếp theo —</div>
+    <h2 class="continue-title">Khi Đại Việt <em>cải biên</em> Hán phục</h2>
+    <button class="continue-btn" onclick="goTo('page2')">
+      Tiếp tục: Trạm 02 <span class="arrow">→</span>
+    </button>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-credit">— Triển lãm Số · Lịch sử Dung hợp —</div>
+    <div class="footer-author"><strong>Phạm Thái An</strong> — BÀI CUỐI KHÓA — Tiếng Việt 10.2a · <a class="footer-source" href="https://docs.google.com/document/d/1lCchywLqQ0NxGKcsAtOLeoGoVs22zM6pRVY0Z-VVhoU/edit?usp=sharing" target="_blank" rel="noopener">Trích nguồn ↗</a></div>
+    <div class="footer-meta">Trạm 01 / 04</div>
+  </footer>
+
+</div>
+
+<!-- ========== PAGE 2 — DAI VIET ========== -->
+<div class="page" id="page2">
+
+  <header class="page-header h2">
+    <div class="bg-char">貳</div>
+    <div class="header-content">
+      <div class="breadcrumb">
+        <span class="breadcrumb-line"></span>
+        <a onclick="goTo('home')">Trang chủ</a>
+        <span>/</span>
+        <span>Trạm 02</span>
+      </div>
+      <div class="page-num">— TRẠM 02 · DAI VIET ADAPTATION —</div>
+      <h1 class="page-title">Khi Đại Việt <em>cải biên</em><br>thành bản sắc.</h1>
+      <p class="page-lead">
+        Hai chiếc áo, hai cách kể chuyện về bản sắc. Một bên tiếp nhận rồi biến dị —
+        một bên là phát minh thuần Việt. Cả hai đều để lại dấu vết trên tà áo dài hôm nay.
+      </p>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- GIAO LINH -->
+    <section class="garment">
+      <div class="garment-header">
+        <div class="garment-num">01</div>
+        <div class="garment-title-block">
+          <h2>Áo <em>Giao Lĩnh</em></h2>
+          <div class="garment-era">— Sau 938 SCN · Tiếp biến từ Hán phục —</div>
+        </div>
+        <div class="garment-tag">Tiếp nhận & Biến dị</div>
+      </div>
+
+      <div class="garment-content">
+        <div class="garment-visual">
+          <img class="garment-photo"
+               src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Tr%C3%BAc_L%C3%A2m_%C4%91%E1%BA%A1i_s%C4%A9_xu%E1%BA%A5t_s%C6%A1n_chi_%C4%91%E1%BB%93_-_5.jpg/640px-Tr%C3%BAc_L%C3%A2m_%C4%91%E1%BA%A1i_s%C4%A9_xu%E1%BA%A5t_s%C6%A1n_chi_%C4%91%E1%BB%93_-_5.jpg"
+               alt="Áo giao lĩnh thời Trần — tranh Trúc Lâm đại sĩ xuất sơn đồ"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+          <svg class="garment-svg" style="display:none" viewBox="0 0 200 280">
+            <use href="#svg-giaolinh"/>
+          </svg>
+          <div class="visual-tag">Áo Giao Lĩnh · Lý–Trần</div>
+        </div>
+        <div>
+          <p class="bullets-intro">
+            Xuất hiện rõ nét sau khi Việt Nam giành độc lập từ nhà Đường (938 SCN).
+            Tiếp nhận từ Hán phục — nhưng <em>biến đổi theo khí hậu và lao động Việt</em>.
+          </p>
+          <ul class="bullets">
+            <li>
+              <div class="num">i.</div>
+              <div class="text">
+                <strong>Cấu trúc cổ chéo</strong> (trái đè phải) giữ nguyên từ Hán phục —
+                nhưng vải <em>mỏng hơn, dáng gọn hơn, ít tầng lớp hơn</em> để phù hợp
+                khí hậu nhiệt đới.
+              </div>
+            </li>
+            <li>
+              <div class="num">ii.</div>
+              <div class="text">
+                Mặc cùng <strong>váy quấn và thắt lưng bao</strong> — tạo ra một tổng thể
+                khác biệt rõ ràng với nguyên bản Trung Hoa.
+              </div>
+            </li>
+            <li>
+              <div class="num">iii.</div>
+              <div class="text">
+                Màu sắc phổ biến: <strong>nâu, đen, chàm</strong> — màu của đất, của ruộng đồng,
+                của <em>thực tế lao động</em>. Không phải màu triều đình, không phải hệ thống 12 cấp như Hán triều.
+              </div>
+            </li>
+            <li>
+              <div class="num">iv.</div>
+              <div class="text">
+                Triều <strong>Lý (1009–1225)</strong> và <strong>Trần (1225–1400)</strong> hệ thống hóa y phục quan lại,
+                nhưng <em>y phục dân gian vẫn giữ dáng giao lĩnh đơn giản, thực dụng</em>.
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== NEW: HAN INFLUENCE BLOCK ===== -->
+    <section class="han-influence">
+      <div class="han-label">— Hán phục đã in dấu lên y phục Việt như thế nào? —</div>
+      <h3>Bốn cách <em>Hán phục</em> ảnh hưởng lên trang phục Việt qua nghìn năm.</h3>
+
+      <div class="han-grid">
+        <div class="han-item">
+          <div class="han-item-head">i. Cấu trúc cổ giao lĩnh</div>
+          <p class="han-item-body">
+            Quy tắc <strong>trái đè phải</strong> được người Việt giữ nguyên — từ Áo Giao Lĩnh thời Lý–Trần đến Áo Tứ Thân thời Lê Sơ.
+            Đây là <em>dấu ấn rõ nhất</em> của Hán phục trên y phục Việt suốt nghìn năm trước thế kỷ 18.
+          </p>
+        </div>
+        <div class="han-item">
+          <div class="han-item-head">ii. Cơ chế truyền dẫn cưỡng bức</div>
+          <p class="han-item-body">
+            Suốt <strong>nghìn năm Bắc thuộc</strong>, y phục Hán được áp đặt từ trên xuống.
+            Người Việt không tiếp nhận tự nguyện — họ <em>hấp thu rồi biến dị</em>: giữ kết cấu, bỏ tầng lớp, đổi vật liệu.
+          </p>
+        </div>
+        <div class="han-item">
+          <div class="han-item-head">iii. Hệ thống y phục quan lại</div>
+          <p class="han-item-body">
+            Triều <strong>Lý và Trần</strong> hệ thống hóa y phục quan lại theo mô hình phân tầng của Trung Hoa —
+            tạo ra hai dòng song song: y phục triều đình theo Hán mẫu, y phục dân gian theo bản địa.
+          </p>
+        </div>
+        <div class="han-item">
+          <div class="han-item-head">iv. Lệnh cải cách 1744</div>
+          <p class="han-item-body">
+            Chúa <strong>Nguyễn Phúc Khoát</strong> năm 1744 ra lệnh mặc quần thay váy —
+            <em>trực tiếp bắt chước mô hình Hán/Minh</em> để khác biệt với Đàng Ngoài. Đây chính là tiền đề cấu trúc cho Áo Dài sau này.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"><span class="symbol">❖</span></div>
+
+    <!-- TU THAN -->
+    <section class="garment">
+      <div class="garment-header">
+        <div class="garment-num">02</div>
+        <div class="garment-title-block">
+          <h2>Áo <em>Tứ Thân</em></h2>
+          <div class="garment-era">— Thế kỷ 15 · Phát minh thuần Việt —</div>
+        </div>
+        <div class="garment-tag">Sáng tạo Bản địa</div>
+      </div>
+
+      <div class="garment-content">
+        <div class="garment-visual">
+          <img class="garment-photo"
+               src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Quan_ho_Bac_Ninh.jpg/640px-Quan_ho_Bac_Ninh.jpg"
+               alt="Áo tứ thân — phụ nữ Bắc Bộ hát quan họ"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+          <svg class="garment-svg" style="display:none" viewBox="0 0 200 280">
+            <use href="#svg-tuthan"/>
+          </svg>
+          <div class="visual-tag">Áo Tứ Thân · Lê Sơ</div>
+        </div>
+        <div>
+          <p class="bullets-intro">
+            Ra đời và phổ biến từ thời <em>Lê Sơ (thế kỷ 15)</em>. Sản phẩm thuần Việt —
+            không sao chép, không vay mượn nguyên xi từ bất kỳ hệ thống nào.
+          </p>
+          <ul class="bullets">
+            <li>
+              <div class="num">i.</div>
+              <div class="text">
+                Tên phản ánh cấu trúc: <strong>bốn mảnh vải</strong> ghép lại —
+                hai mảnh trước, hai mảnh sau. Đây là tên gọi mô tả kỹ thuật, không phải biểu tượng.
+              </div>
+            </li>
+            <li>
+              <div class="num">ii.</div>
+              <div class="text">
+                Kỹ thuật dệt thủ công thời đó giới hạn <strong>khổ vải ~35–40 cm</strong>,
+                buộc thợ may phải <em>ghép vải để tạo áo đủ rộng</em>. Giải pháp kỹ thuật
+                trở thành bản sắc thẩm mỹ.
+              </div>
+            </li>
+            <li>
+              <div class="num">iii.</div>
+              <div class="text">
+                Vạt trước để buông hoặc <strong>buộc thắt trước bụng</strong> — nét duyên dáng
+                đặc trưng của phụ nữ đồng bằng Bắc Bộ. Mặc cùng <em>yếm, váy đen, nón quai thao</em>
+                — tổng thể không thể tách rời.
+              </div>
+            </li>
+            <li>
+              <div class="num">iv.</div>
+              <div class="text">
+                Màu sắc đậm chất vùng miền: <strong>nâu già, xanh chàm, tím Huế</strong> —
+                nhuộm từ <em>lá chàm, vỏ cây, bùn ruộng lên men</em>. Triết học nhuộm tự nhiên
+                được hình thành ngay từ đây.
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="legacy-bridge">
+        <div class="label">— Di sản kỹ thuật để lại —</div>
+        <p>
+          Kỹ thuật <strong>ghép bốn mảnh vải</strong> để lại dấu ấn trong tư duy may đo Việt:
+          áo không được cắt từ một tấm vải nguyên, mà được <em>lắp ghép</em>.
+          Đây chính xác là tư duy mà các local brand upcycling tại Sài Gòn đang dùng — khi
+          tháo áo cũ ra rồi ghép lại với jeans, bomber jacket. Bản sắc kỹ thuật vượt thời gian.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <section class="continue-section">
+    <div class="bg-char">參</div>
+    <button class="continue-prev" onclick="goTo('page1')">← Quay lại Trạm 01</button>
+    <div class="continue-eyebrow">— Trạm tiếp theo —</div>
+    <h2 class="continue-title">Sài Gòn hôm nay — <em>Cát Tường</em> & local brand</h2>
+    <button class="continue-btn" onclick="goTo('page3')">
+      Tiếp tục: Trạm 03 <span class="arrow">→</span>
+    </button>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-credit">— Triển lãm Số · Lịch sử Dung hợp —</div>
+    <div class="footer-author"><strong>Phạm Thái An</strong> — BÀI CUỐI KHÓA — Tiếng Việt 10.2a · <a class="footer-source" href="https://docs.google.com/document/d/1lCchywLqQ0NxGKcsAtOLeoGoVs22zM6pRVY0Z-VVhoU/edit?usp=sharing" target="_blank" rel="noopener">Trích nguồn ↗</a></div>
+    <div class="footer-meta">Trạm 02 / 04</div>
+  </footer>
+
+</div>
+
+<!-- ========== PAGE 3 — SAI GON ========== -->
+<div class="page" id="page3">
+
+  <header class="page-header h3">
+    <div class="bg-char">參</div>
+    <div class="header-content">
+      <div class="breadcrumb">
+        <span class="breadcrumb-line"></span>
+        <a onclick="goTo('home')">Trang chủ</a>
+        <span>/</span>
+        <span>Trạm 03</span>
+      </div>
+      <div class="page-num">— TRẠM 03 · MODERN INTEGRATION —</div>
+      <h1 class="page-title">Sài Gòn <em>hôm nay</em><br>đối thoại với truyền thống.</h1>
+      <p class="page-lead">
+        Từ Áo Ngũ Thân của Phúc Khoát (1744), đến "cách mạng" của Cát Tường (1930), đến
+        Kilomet109 và những local brand đang ghép Áo Dài với bomber jacket trong các pop-up
+        market — di sản đang sống.
+      </p>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <section class="ao-dai-timeline">
+      <div class="section-label"><span>Dòng chảy Áo Dài</span></div>
+      <h2 class="timeline-title">Bốn cột mốc — từ <em>Phúc Khoát</em> đến <em>Đổi Mới</em></h2>
+
+      <div class="timeline-list">
+        <div class="timeline-step">
+          <div class="year">1744</div>
+          <div class="what">Áo Ngũ Thân</div>
+          <p class="desc">
+            Chúa <strong>Nguyễn Phúc Khoát</strong> ra lệnh cải cách y phục tại Đàng Trong:
+            quần thay váy, cổ đứng thay cổ giao lĩnh. Lần đầu Việt Nam có y phục mang tính
+            <strong>"quốc gia"</strong> có chủ đích.
+          </p>
+        </div>
+        <div class="timeline-step">
+          <div class="year">1930</div>
+          <div class="what">Le Mur — Cát Tường</div>
+          <p class="desc">
+            Họa sĩ Cát Tường cắt bỏ tà trước ngắn, <strong>thu eo, kéo dài tà sau</strong> —
+            lần đầu đường cong cơ thể phụ nữ được công khai thừa nhận.
+            Báo chí gọi là <em>"cách mạng"</em> và <em>"ô nhục"</em> trong cùng một tuần.
+          </p>
+        </div>
+        <div class="timeline-step">
+          <div class="year">1950s</div>
+          <div class="what">Nhà may Dung — Sài Gòn</div>
+          <p class="desc">
+            Phát triển <strong>cổ thuyền, cổ hở</strong>. Áo Dài bắt đầu đối thoại trực tiếp
+            với thời trang phương Tây đang tràn vào cùng làn sóng <em>Mỹ hóa</em>.
+          </p>
+        </div>
+        <div class="timeline-step">
+          <div class="year">1990s</div>
+          <div class="what">Sau Đổi Mới</div>
+          <p class="desc">
+            Áo Dài được <strong>phục hồi như biểu tượng quốc gia</strong> được kiến tạo có
+            chủ đích — không còn là thứ người dân tự nhiên mặc hằng ngày như xưa.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="embed-section">
+      <div class="section-label"><span>Đa phương tiện · Đi tận nơi</span></div>
+      <h2 class="embed-title">Áo Dài sống ở <em>đâu</em> trong Sài Gòn?</h2>
+      <p class="embed-intro">
+        Hãy đi cùng một bản đồ và một video — đến chợ Bến Thành nơi local brand mua áo cũ về tháo ra ghép lại,
+        và xem cách Áo Dài cách tân thực sự xuất hiện trên đường phố TP.HCM hôm nay.
+      </p>
+
+      <div class="embed-grid">
+        <div class="embed-block">
+          <div class="embed-header">
+            <div class="embed-label">— Google Maps —</div>
+            <div class="embed-type">Chợ Bến Thành</div>
+          </div>
+          <iframe class="embed-frame"
+            src="https://www.google.com/maps?q=Cho+Ben+Thanh+Ho+Chi+Minh+City&output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen></iframe>
+          <div class="embed-caption">
+            <strong>Chợ Bến Thành</strong> — nơi local brand như Lão Làng mua áo dài cũ về tháo ra,
+            ghép lại với jeans và bomber jacket. Bản đồ vật chất của upcycling Sài Gòn.
+          </div>
+        </div>
+
+        <div class="embed-block">
+          <div class="embed-header">
+            <div class="embed-label">— YouTube —</div>
+            <div class="embed-type">Áo dài qua các thời kỳ</div>
+          </div>
+          <iframe class="embed-frame"
+            src="https://www.youtube.com/embed/bOWxLsIBL0k"
+            title="Áo dài Việt Nam qua các thời kỳ lịch sử"
+            loading="lazy"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+          <div class="embed-caption">
+            Video <em>"Áo dài Việt Nam qua các thời kỳ lịch sử"</em> — bản tin Báo Dân tộc và Phát triển.
+            Hành trình tà áo từ <strong>cấu trúc truyền thống</strong> đến cách thế hệ trẻ Sài Gòn diễn giải lại di sản.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="brands">
+      <div class="section-label"><span>— Sài Gòn đang làm gì —</span></div>
+      <h2 class="brands-title">Ba <em>local brand</em> đang dệt lại quá khứ.</h2>
+      <p class="brands-intro">
+        Họ không phục dựng — họ <em>tái diễn giải</em>. Mỗi đường may là một câu trả lời
+        cho câu hỏi: làm sao truyền thống tồn tại trong một thành phố 10 triệu dân?
+      </p>
+
+      <div class="brand-grid">
+        <div class="brand-card">
+          <div class="brand-tag">— 01 · NHUỘM TỰ NHIÊN —</div>
+          <h3 class="brand-name"><em>Kilomet109</em></h3>
+          <div class="brand-loc">Vũ Thảo · Hà Nội — ảnh hưởng tại Sài Gòn</div>
+          <p class="brand-desc">
+            Vải nhuộm tự nhiên từ <strong>bùn, lá, củ nghệ</strong>. Phục hồi kỹ thuật dệt thủ công của
+            các dân tộc thiểu số. <em>Không sản xuất hàng loạt</em> — mỗi sản phẩm là một
+            vật phẩm có lịch sử vật liệu riêng.
+          </p>
+        </div>
+        <div class="brand-card">
+          <div class="brand-tag">— 02 · HAUTE COUTURE —</div>
+          <h3 class="brand-name"><em>Thủy</em> Design House</h3>
+          <div class="brand-loc">Cách tân Áo Dài cao cấp</div>
+          <p class="brand-desc">
+            Giữ đường may truyền thống nhưng thay lụa bằng <strong>vải tái chế, vải dư thừa</strong>
+            từ các xưởng may xuất khẩu tại Bình Dương và Đồng Nai. <em>Rác thải trở thành nguyên liệu cao cấp</em>.
+          </p>
+        </div>
+        <div class="brand-card">
+          <div class="brand-tag">— 03 · UPCYCLING —</div>
+          <h3 class="brand-name"><em>Lão Làng</em> & Pop-up</h3>
+          <div class="brand-loc">Thị Trường Làng · Chợ Tốt Đẹp</div>
+          <p class="brand-desc">
+            Mua áo dài cũ từ chợ Bến Thành, <strong>tháo ra, ghép lại</strong> với jeans, bomber jacket.
+            Tạo ra thứ <em>không có tên gọi chính xác</em> trong bất kỳ hệ thống phân loại
+            thời trang nào.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats-section">
+      <div class="section-label"><span>— Con số cần nhớ —</span></div>
+      <h2 class="brands-title">Tại sao đây không chỉ là <em>thời trang</em>?</h2>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-num">8.000</div>
+          <div class="stat-unit">— tấn vải vụn / năm —</div>
+          <p class="stat-desc">
+            Lượng vải thải ra mỗi năm bởi ngành may mặc VN. Với Thủy Design House,
+            đây là <strong>nguồn nguyên liệu</strong>, không phải rác.
+          </p>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">1744</div>
+          <div class="stat-unit">— năm khai sinh khuôn mẫu —</div>
+          <p class="stat-desc">
+            Lệnh cải cách của <strong>chúa Nguyễn Phúc Khoát</strong> đặt nền móng cho cấu trúc
+            Áo Dài hiện đại — gần 200 năm trước Cát Tường.
+          </p>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">35-40</div>
+          <div class="stat-unit">— cm khổ vải cổ —</div>
+          <p class="stat-desc">
+            Giới hạn dệt thủ công thế kỷ 15 buộc phải <strong>ghép 4 mảnh vải</strong>.
+            Kỹ thuật cũ — tư duy mới của local brand upcycling hôm nay.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <section class="continue-section">
+    <div class="bg-char">肆</div>
+    <button class="continue-prev" onclick="goTo('page2')">← Quay lại Trạm 02</button>
+    <div class="continue-eyebrow">— Trạm cuối —</div>
+    <h2 class="continue-title">Thông điệp & <em>trách nhiệm</em></h2>
+    <button class="continue-btn" onclick="goTo('page4')">
+      Tiếp tục: Trạm 04 <span class="arrow">→</span>
+    </button>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-credit">— Triển lãm Số · Lịch sử Dung hợp —</div>
+    <div class="footer-author"><strong>Phạm Thái An</strong> — BÀI CUỐI KHÓA — Tiếng Việt 10.2a · <a class="footer-source" href="https://docs.google.com/document/d/1lCchywLqQ0NxGKcsAtOLeoGoVs22zM6pRVY0Z-VVhoU/edit?usp=sharing" target="_blank" rel="noopener">Trích nguồn ↗</a></div>
+    <div class="footer-meta">Trạm 03 / 04</div>
+  </footer>
+
+</div>
+
+<!-- ========== PAGE 4 — TUONG LAI ========== -->
+<div class="page" id="page4">
+
+  <section class="hero-quote">
+    <svg class="quote-bg-svg" viewBox="0 0 400 400">
+      <use href="#svg-decorative"/>
+    </svg>
+    <div class="quote-content">
+      <div class="quote-eyebrow">Trạm 04 · Legacy Message</div>
+      <div class="quote-mark">"</div>
+      <h1 class="quote-text">
+        Hội nhập không có nghĩa là <span class="highlight">xóa bỏ quá khứ</span>.
+        Thời trang bền vững nhất chính là việc những người trẻ Sài Gòn
+        tự tin mặc lên người chiếc <strong>Áo Dài truyền thống</strong>
+        nhưng mang <span class="highlight">tư duy bảo vệ môi trường</span> hiện đại.
+      </h1>
+      <div class="quote-attribution">
+        <span class="attribution-line"></span>
+        <div class="attribution-text">
+          Thông điệp đúc kết của <span class="name">Phạm Thái An</span> · 2026
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="insights">
+    <div class="insights-header">
+      <div class="section-label"><span>— Ba bài học phản biện —</span></div>
+      <h2 class="insights-title">
+        Điều một tà áo dạy chúng ta về <em>bản sắc</em><br>
+        trong một thành phố toàn cầu hóa.
+      </h2>
+    </div>
+
+    <div class="insights-grid">
+      <div class="insight-card">
+        <div class="insight-num">i</div>
+        <h3 class="insight-headline">
+          Truyền thống <em>không đứng yên</em> — nó luôn được sáng tạo lại.
+        </h3>
+        <p class="insight-body">
+          Hán phục — Giao Lĩnh — Tứ Thân — Ngũ Thân — Le Mur — cách tân Sài Gòn 1950s — Áo Dài cách tân của local brand hôm nay.
+          <strong>Mỗi thế hệ đều "phản bội" thế hệ trước</strong> để giữ cho di sản còn sống.
+          Người gọi Cát Tường là "ô nhục" năm 1930 đã quên rằng Phúc Khoát năm 1744 cũng từng bị xem là kẻ đảo lộn trật tự.
+        </p>
+      </div>
+      <div class="insight-card">
+        <div class="insight-num">ii</div>
+        <h3 class="insight-headline">
+          "Thuần Việt" không loại trừ <em>"giao thoa"</em>.
+        </h3>
+        <p class="insight-body">
+          Áo Tứ Thân là phát minh thuần Việt — nhưng cấu trúc cổ giao lĩnh của tổ tiên đến từ Hán phục, kỹ thuật ghép vải đến từ <em>giới hạn công nghệ dệt thời Lê Sơ</em>.
+          Bản sắc không phải là một thứ tinh khiết được bảo vệ trong tủ kính — nó là <strong>kết quả của việc xử lý các ảnh hưởng từ bên ngoài</strong> một cách thông minh.
+        </p>
+      </div>
+      <div class="insight-card">
+        <div class="insight-num">iii</div>
+        <h3 class="insight-headline">
+          Local brand đang làm điều <em>mà Lê Sơ đã làm</em>.
+        </h3>
+        <p class="insight-body">
+          Khi Lão Làng tháo áo dài cũ ra ghép với jeans, họ đang lặp lại <strong>chính xác tư duy của thợ may thế kỷ 15</strong>: vải có hạn, hãy ghép lại.
+          Khi Kilomet109 nhuộm bằng bùn, họ đang phục hồi triết học của <em>người nhuộm chàm thời Lê Sơ</em>. Tương lai không cách quá khứ — nó <strong>quay vòng lại</strong>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== NEW: RESPONSIBILITY OF YOUNG CITIZEN ===== -->
+  <section class="responsibility">
+    <div class="responsibility-header">
+      <div class="section-label"><span>— Trách nhiệm công dân trẻ —</span></div>
+      <h2 class="resp-title">
+        Người trẻ Sài Gòn làm gì để <em>phát triển</em><br>
+        y phục Việt trong thời hội nhập?
+      </h2>
+      <p class="resp-lead">
+        Hội nhập không tự nhiên giữ được bản sắc. Nó đòi hỏi <em>hành động cụ thể</em>
+        từ những công dân trẻ — bốn việc dưới đây không lớn lao, nhưng là điểm bắt đầu thực tế.
+      </p>
+    </div>
+
+    <div class="resp-grid">
+      <div class="resp-card">
+        <div class="resp-icon">壹</div>
+        <h3 class="resp-head">Mặc <em>đúng dịp</em>, không chỉ Tết</h3>
+        <p class="resp-body">
+          Áo dài chỉ sống khi nó được mặc. Lễ trường, đám cưới, đi chơi cuối tuần, chụp ảnh tốt nghiệp —
+          mỗi dịp người trẻ chọn áo dài thay vì <strong>đồ Tây</strong>, là một lần di sản được nuôi.
+        </p>
+      </div>
+
+      <div class="resp-card">
+        <div class="resp-icon">貳</div>
+        <h3 class="resp-head">Ủng hộ <em>local brand</em>, không hàng nhái</h3>
+        <p class="resp-body">
+          Mua từ Kilomet109, Thủy Design House, các pop-up Sài Gòn — thay vì áo dài giá rẻ
+          sao chép từ Trung Quốc. Một đồng chi ra là <em>một phiếu bầu</em> cho ai sống được bằng nghề.
+        </p>
+      </div>
+
+      <div class="resp-card">
+        <div class="resp-icon">參</div>
+        <h3 class="resp-head">Học <em>câu chuyện</em>, không chỉ kiểu dáng</h3>
+        <p class="resp-body">
+          Biết Cát Tường là ai, biết tại sao có cổ giao lĩnh, biết 1744 là năm nào —
+          khi người trẻ <strong>kể được lịch sử của tà áo mình mặc</strong>, áo dài không chỉ là quần áo,
+          mà là di sản sống.
+        </p>
+      </div>
+
+      <div class="resp-card">
+        <div class="resp-icon">肆</div>
+        <h3 class="resp-head">Lan tỏa <em>có trách nhiệm</em> trên mạng</h3>
+        <p class="resp-body">
+          Khi đăng ảnh áo dài lên TikTok, Instagram — gắn nhãn đúng tên, ghi nguồn local brand,
+          chia sẻ ý nghĩa. <em>Mỗi bài post là một viên gạch</em> xây di sản trong thế giới số,
+          nơi một thế hệ đang lớn lên.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="synthesis">
+    <div class="synthesis-content">
+      <div class="synthesis-visual-wrap">
+        <img class="synthesis-photo"
+             src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Red_Ao_dai.JPG/500px-Red_Ao_dai.JPG"
+             alt="Phụ nữ Việt Nam mặc áo dài đỏ"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+        <svg class="synthesis-svg" style="display:none" viewBox="0 0 200 320">
+          <use href="#svg-aodai-modern"/>
+        </svg>
+        <div class="synthesis-visual-tag">
+          Bạn trẻ Sài Gòn mặc Áo Dài cách tân tại Đường Sách — di sản đang sống.
+        </div>
+      </div>
+      <div class="synthesis-text">
+        <div class="label">— Đúc kết toàn bộ hành trình —</div>
+        <h2>Tà áo là <em>tấm bản đồ</em><br>của một dân tộc biết tiếp nhận.</h2>
+        <p>
+          Từ một cấu trúc cổ chéo bên dòng Hoàng Hà, qua nghìn năm Bắc thuộc, qua bốn mảnh
+          vải của Lê Sơ, qua lệnh cải cách của Phúc Khoát, qua đôi tay Cát Tường năm 1930,
+          qua nhà may Dung ở Sài Gòn những năm 60 — tà áo đã đi <strong>vạn dặm</strong>.
+        </p>
+        <p>
+          Hôm nay, ở Đường Sách Nguyễn Văn Bình hay trong những pop-up market quanh chợ
+          Bến Thành, các bạn trẻ Sài Gòn đang viết tiếp <em>chương kế tiếp</em>: ghép Áo Dài
+          với bomber jacket, nhuộm bằng bùn, may từ vải tái chế.
+        </p>
+        <p>
+          Đó không phải là <strong>hiện đại hóa</strong>. Đó là tiếp biến — đúng cách
+          ông cha ta đã làm từ thế kỷ thứ X.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="closing">
+    <div class="closing-content">
+      <div class="closing-eyebrow">— Kết thúc hành trình —</div>
+      <h2 class="closing-title">
+        Cảm ơn bạn đã đi cùng <em>bốn trạm</em> của mình.<br>
+        Hành trình chỉ vừa bắt đầu.
+      </h2>
+      <div class="closing-actions">
+        <button class="closing-btn primary" onclick="goTo('home')">← Về trang chủ</button>
+        <button class="closing-btn secondary" onclick="goTo('page1')">Xem lại từ đầu →</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-credit">— Triển lãm Số · Lịch sử Dung hợp —</div>
+    <div class="footer-author"><strong>Phạm Thái An</strong> — BÀI CUỐI KHÓA — Tiếng Việt 10.2a · <a class="footer-source" href="https://docs.google.com/document/d/1lCchywLqQ0NxGKcsAtOLeoGoVs22zM6pRVY0Z-VVhoU/edit?usp=sharing" target="_blank" rel="noopener">Trích nguồn ↗</a></div>
+    <div class="footer-meta">Trạm 04 / 04</div>
+  </footer>
+
+</div>
+
+<script>
+  function goTo(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const target = document.getElementById(pageId);
+    if (target) target.classList.add('active');
+    document.querySelectorAll('.nav-link').forEach(a => {
+      a.classList.toggle('active', a.dataset.page === pageId);
+    });
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    history.replaceState(null, '', '#' + pageId);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const hash = window.location.hash.replace('#', '');
+    if (hash && document.getElementById(hash)) {
+      goTo(hash);
+    } else {
+      goTo('home');
+    }
+  });
+</script>
+
+</body>
+</html>
